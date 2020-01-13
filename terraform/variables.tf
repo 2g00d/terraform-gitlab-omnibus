@@ -15,7 +15,7 @@ variable "public_subnet_cidr_block" {
 
 variable "key" {
   type    = string
-  default = "work.pem"
+  default = "work"
 }
 
 variable "instance_type" {
@@ -25,5 +25,19 @@ variable "instance_type" {
 
 variable "image_id" {
   type    = string
-  default = ""
+  default = "ami-062f7200baf2fa504"
 }
+
+variable "aws-region" {
+  type    = string
+  default = "us-east-1"
+}
+
+/*
+variable "my-sg" {
+  type    = string
+  default = "sg-0599213b974bcb610"
+}
+*/
+
+

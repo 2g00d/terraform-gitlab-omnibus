@@ -1,6 +1,6 @@
 resource "aws_instance" "gitlab-omnibus" {
   ami                         = var.image_id
-  instance_type               = var.instance_type
+  instance_type               = "t2.medium"
   key_name                    = var.key
   associate_public_ip_address = true
   subnet_id                   = aws_subnet.my_public_subnet.id

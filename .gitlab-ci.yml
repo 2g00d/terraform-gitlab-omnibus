@@ -1,30 +1,37 @@
+image: python:latest
+
 before_script:
-  - echo "Before script section"
-  - echo "For example you might run an update here or install a build dependency"
-  - echo "Or perhaps you might print out some debugging details"
+  - python3 -V  
+  - pip3 install boto3
 
-after_script:
-  - echo "After script section"
-  - echo "For example you might do some cleanup here"
+stages:
+  - build
+  - test
 
-build1:
+first:
   stage: build
   tags:
-    - ebash
+    - docker
   script:
-    - chmod +x ./run.sh
-    - ./run.sh
-    - echo "Do your build here"
+    - python3 s3d.py anewdawnbucket test.txt imtestingyou.txt
+    - touch new.txt
+    - echo 'ddddd' > new.txt
+    - cat imtestingyou.txt
+  artifacts:
+    paths:
+    - test.txt
+    - new.txt
 
-test1:
+second:
   stage: test
   tags:
     - ebash
   script:
-    - echo "Do a test here"
-    - instagram-scraper cavecanems
+    - ls -la
+    - python3 s3d.py anewdawnbucket test.txt test.txt
+    - cat test.txt
+  
+#  artifacts:
+#    paths:
+#    - test.txt
 
-deploy1:
-  stage: deploy
-  script:
-    - echo "Do your deploy here"

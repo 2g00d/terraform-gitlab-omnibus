@@ -1,7 +1,4 @@
-#!/usr/bin/python
 import boto3
-
-response = client.get_parameter(
-    Name='string',
-    WithDecryption=True|False
-)
+ssm = boto3.client('ssm')
+parameter = ssm.get_parameter(Name='/test', WithDecryption=False)
+print(parameter['Parameter']['Value'])

@@ -13,6 +13,12 @@ resource "aws_instance" "gitlab-omnibus" {
     Name = "gitlab"
 
   }
+  
+  provisioner "local-exec" {
+    command = "put_parameter.py"
+    interpreter = ["python3"]
+  }
+
 }
 resource "aws_instance" "gitlab-runner-1" {
   ami                         = var.image_id

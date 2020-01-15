@@ -18,7 +18,9 @@ yum -y install gitlab-ee
 
 EXTERNAL_URL="$(curl  http://ip.tyk.nu/)"
 
-gitlab-ctl reconfigure
+echo "gitlab_rails['monitoring_whitelist'] = ['0.0.0.0/0', '127.0.0.0/8', '192.168.0.1']" >> /etc/gitlab/gitlab.rb
+
+gitlab-ctl reconfigure 
 
 gitlab-rails runner -e production "puts Gitlab::CurrentSettings.current_application_settings.runners_registration_token" > /tmp/token
 
@@ -32,6 +34,8 @@ ssm = boto3.client('ssm', region_name='us-east-1')
 f = open("/tmp/token", "r")
 val = f.readline()
 f.close
+
+delete = ssm.delete_parameter(Name='gitlab-runner-token')
 
 response = ssm.put_parameter(
     Name='gitlab-runner-token',

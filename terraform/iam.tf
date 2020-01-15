@@ -39,6 +39,7 @@ policy = <<EOF
 "Effect": "Allow",
 "Action": [
 "ssm:PutParameter",
+"ssm:DeleteParameter",
 "ssm:GetParameter*"
 ],
 "Resource": "*"

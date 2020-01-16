@@ -57,7 +57,7 @@ gitlab-runner register \
     --executor "docker" \
     --docker-image python:latest \
     --description "docker-runner" \
-    --tag-list "docker,aws" \
+    --tag-list "docker" \
     --run-untagged="true" \
     --locked="false" \
     --access-level="not_protected"

@@ -33,11 +33,6 @@ variable "aws-region" {
   default = "us-east-1"
 }
 
-/*
-variable "my-sg" {
-  type    = string
-  default = "sg-0599213b974bcb610"
-}
-*/
+
 
 

@@ -16,7 +16,7 @@ chmod +x /home/ec2-user/script.rpm.sh
 
 yum -y install gitlab-ee
 
-EXTERNAL_URL="$(curl  http://ip.tyk.nu/)"
+EXTERNAL_URL="$(curl http://169.254.169.254/latest/meta-data/public-ipv4)"
 
 echo "gitlab_rails['monitoring_whitelist'] = ['0.0.0.0/0', '127.0.0.0/8', '192.168.0.1']" >> /etc/gitlab/gitlab.rb
 

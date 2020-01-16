@@ -15,17 +15,25 @@ cat <<EOF > /opt/get_parameter.py
 #!/bin/python3
 import boto3
 import requests
+import time 
+from requests import ReadTimeout, ConnectTimeout, HTTPError, Timeout, ConnectionError
 
-resp = requests.get('http://${gitlab_ip}/-/health')
+ssm = boto3.client('ssm', region_name='us-east-1')
 
-while resp.status_code == 200:
-    ssm = boto3.client('ssm', region_name='us-east-1')
-    parameter = ssm.get_parameter(Name='/gitlab-runner-token', WithDecryption=False)
-    token = (parameter['Parameter']['Value'])
-    f = open('token','w')
-    f.write(token)
-    f.close()
-    break
+while True:
+    try:
+        resp = requests.get('http://${gitlab_ip}/-/health', timeout=10.0)
+        if resp.status_code == 200:
+            parameter = ssm.get_parameter(Name='/gitlab-runner-token', WithDecryption=False)
+            token = (parameter['Parameter']['Value'])
+            print ('Gitlab is up, writing token to file...')
+            time.sleep(20)
+            f = open('token','w')
+            f.write(token)
+            f.close()
+    except (ConnectTimeout, HTTPError, ReadTimeout, Timeout, ConnectionError):
+        print('Waiting for gitlab...')
+        continue
 EOF
 
 chmod +x /opt/get_parameter.py

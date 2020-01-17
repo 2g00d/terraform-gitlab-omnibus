@@ -12,3 +12,12 @@ data "template_file" "gitlab_runner_template" {
 
 }
 
+data "template_file" "gitlab_runner_2_template" {
+  template = "${file("${path.module}/gitlab_runner_template_2.sh")}"
+
+ vars = {
+    gitlab_ip = aws_instance.gitlab-omnibus.public_ip
+  }
+
+}
+

@@ -47,13 +47,14 @@ usermod -a -G docker gitlab-runner
 
 python3 /opt/get_parameter.py 
 
-TOKEN=$(cat /opt/token) 
-echo $TOKEN
-echo "export TOKEN=$TOKEN" >> /home/ec2-user/.bashrc
+cat <<EOF > /opt/runner.sh
+#!/bin/bash
+TOKEN=\$(cat /opt/token)
+echo \$TOKEN >> /home/ec2-user/.bashrc
 gitlab-runner register \
     --non-interactive \
     --url "http://${gitlab_ip}/" \
-    --registration-token "$TOKEN" \
+    --registration-token "\$TOKEN" \
     --executor "docker" \
     --docker-image python:latest \
     --description "docker-runner" \
@@ -61,3 +62,8 @@ gitlab-runner register \
     --run-untagged="true" \
     --locked="false" \
     --access-level="not_protected"
+EOF
+
+chmod +x /opt/runner.sh
+
+/opt/runner.sh

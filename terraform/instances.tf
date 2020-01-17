@@ -39,10 +39,10 @@ resource "aws_instance" "gitlab-runner-2" {
   security_groups             = [aws_security_group.my_sg.id]
   iam_instance_profile        = aws_iam_instance_profile.parameter_store_profile.name
 
-  user_data = data.template_file.gitlab_runner_template.rendered
+  user_data = data.template_file.gitlab_runner_2_template.rendered
 
   tags = {
-    Name = "gitlab-runner"
+    Name = "gitlab-runner-2"
 
   }
 }
